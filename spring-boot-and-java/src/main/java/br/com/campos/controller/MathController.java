@@ -14,18 +14,18 @@ public class MathController {
 
     SimpleMath simpleMath = new SimpleMath();
 
-
     @RequestMapping("/sum/{numberOne}/{numberTwo}")
     public Double sum(
             @PathVariable("numberOne") String numberOne,
             @PathVariable("numberTwo") String numberTwo
     ) {
-        if (!NumberConverter.isNumeric(numberOne) || !NumberConverter.isNumeric(numberTwo)) {
+        if (!NumberConverter.isNumeric(numberOne) || !NumberConverter.isNumeric(numberTwo))
             throw new UnsupportedOperationException("Please set a numeric value!");
-        }
-        return simpleMath.sum(numberOne, numberTwo);
-    }
+        Double num1 = NumberConverter.convertToDouble(numberOne);
+        Double num2 = NumberConverter.convertToDouble(numberTwo);
 
+        return simpleMath.sum(num1, num2);
+    }
 
     @RequestMapping("/subtraction/{numberOne}/{numberTwo}")
     public Double subtract(
@@ -34,7 +34,11 @@ public class MathController {
     ) {
         if (!NumberConverter.isNumeric(numberOne) || !NumberConverter.isNumeric(numberTwo))
             throw new UnsupportedOperationException("Please set a numeric value!");
-        return simpleMath.subtraction(numberOne, numberTwo);
+
+        Double num1 = NumberConverter.convertToDouble(numberOne);
+        Double num2 = NumberConverter.convertToDouble(numberTwo);
+
+        return simpleMath.subtraction(num1, num2);
     }
 
     @RequestMapping("/multiplication/{numberOne}/{numberTwo}")
@@ -44,7 +48,10 @@ public class MathController {
     ) {
         if (!NumberConverter.isNumeric(numberOne) || !NumberConverter.isNumeric(numberTwo))
             throw new UnsupportedOperationException("Please set a numeric value!");
-        return simpleMath.multiplication(numberOne, numberTwo);
+        Double num1 = NumberConverter.convertToDouble(numberOne);
+        Double num2 = NumberConverter.convertToDouble(numberTwo);
+
+        return simpleMath.multiplication(num1, num2);
     }
 
     @RequestMapping("/divide/{numberOne}/{numberTwo}")
@@ -57,7 +64,10 @@ public class MathController {
         if (NumberConverter.convertToDouble(numberTwo) == 0) {
             throw new UnsupportedOperationException("Division by zero is not allowed!!");
         }
-        return simpleMath.divide(numberOne, numberTwo);
+        Double num1 = NumberConverter.convertToDouble(numberOne);
+        Double num2 = NumberConverter.convertToDouble(numberTwo);
+
+        return simpleMath.divide(num1, num2);
     }
 
     @RequestMapping("/mean/{numberOne}/{numberTwo}")
@@ -67,7 +77,10 @@ public class MathController {
     ) {
         if (!NumberConverter.isNumeric(numberOne) ||!NumberConverter.isNumeric(numberTwo))
             throw new UnsupportedOperationException("Please set a numeric value!");
-        return simpleMath.mean(numberOne, numberTwo);
+        Double num1 = NumberConverter.convertToDouble(numberOne);
+        Double num2 = NumberConverter.convertToDouble(numberTwo);
+
+        return simpleMath.mean(num1, num2);
     }
 
     @RequestMapping("/square/{numberOne}")
@@ -79,6 +92,8 @@ public class MathController {
         if (NumberConverter.convertToDouble(numberOne) <= 0) {
             throw new UnsupportedOperationException("Please, the number could not be zero or negative!");
         }
-        return simpleMath.square(numberOne);
+        Double num1 = NumberConverter.convertToDouble(numberOne);
+        
+        return simpleMath.square(num1);
     }
 }
