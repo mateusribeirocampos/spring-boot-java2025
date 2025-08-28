@@ -93,7 +93,7 @@ public class MathController {
             throw new UnsupportedOperationException("Please, the number could not be zero or negative!");
         }
         Double num1 = NumberConverter.convertToDouble(numberOne);
-        
+
         return simpleMath.square(num1);
     }
 }
