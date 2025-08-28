@@ -2,6 +2,7 @@ package br.com.campos.services;
 
 import br.com.campos.model.Person;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,7 @@ public class PersonServices {
 
 
     public List<Person> findAll() {
+        logger.info("Finding all persons");
         List<Person> persons = new ArrayList<Person>();
         for (int i = 0; i < 10; i++) {
             Person person = mockPerson(i);
@@ -43,6 +45,11 @@ public class PersonServices {
         person.setAddress("Ouro Fino - Minas Gerais");
         person.setGender("Male");
 
+        return person;
+    }
+
+    public Person create(Person person) {
+        logger.info("Person was created!");
         return person;
     }
 }
