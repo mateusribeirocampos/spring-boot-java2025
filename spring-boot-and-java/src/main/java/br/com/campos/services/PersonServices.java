@@ -52,4 +52,14 @@ public class PersonServices {
         logger.info("Person was created!");
         return person;
     }
+
+    public Person update(Person person) {
+        logger.info("Person was updated!");
+        return person;
+    }
+
+    public void delete(String id) {
+        logger.info("Deleting one person");
+    }
+
 }
