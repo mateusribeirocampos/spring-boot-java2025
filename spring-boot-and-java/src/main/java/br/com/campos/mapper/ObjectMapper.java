@@ -14,10 +14,10 @@ public class ObjectMapper {
         return mapper.map(origin, destination);
     }
 
-    public static <O, D> List<D> parseListObject(List<O> origin, Class<D> destination) {
+    public static <O, D> List<D> parseListObjects(List<O> origin, Class<D> destination) {
         List<D> destinationObject = new ArrayList<>();
         for (Object O : origin) {
-            destinationObject.add(mapper.map(origin, destination));
+            destinationObject.add(mapper.map(O, destination));
         }
         return destinationObject;
     }
