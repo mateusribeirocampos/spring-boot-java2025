@@ -1,6 +1,4 @@
-package br.com.campos.data.dto;
-
-import jakarta.persistence.*;
+package br.com.campos.data.dto.v1;
 
 import java.io.Serializable;
 import java.util.Objects;

@@ -3,10 +3,8 @@ package br.com.campos.unitETests.mapper.mocks;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.campos.data.dto.PersonDTO;
 import br.com.campos.model.Person;
 import br.com.campos.data.dto.PersonDTO;
-import br.com.campos.model.Person;
 
 public class MockPerson {
 

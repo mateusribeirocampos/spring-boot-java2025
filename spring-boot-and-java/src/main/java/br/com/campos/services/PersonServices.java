@@ -1,6 +1,7 @@
 package br.com.campos.services;
 
-import br.com.campos.data.dto.PersonDTO;
+import br.com.campos.data.dto.v1.PersonDTO;
+import br.com.campos.data.dto.v2.PersonDTOV2;
 import br.com.campos.exception.ResourceNotFoundException;
 import static br.com.campos.mapper.ObjectMapper.parseListObjects;
 import static br.com.campos.mapper.ObjectMapper.parseObject;
@@ -36,6 +37,12 @@ public class PersonServices {
     }
 
     public PersonDTO create(PersonDTO person) {
+        logger.info("Person was created!");
+        var entity = parseObject(person, Person.class);
+        return parseObject(repository.save(entity), PersonDTO.class);
+    }
+
+    public PersonDTOV2 createV2(PersonDTOV2 person) {
         logger.info("Person was created!");
         var entity = parseObject(person, Person.class);
         return parseObject(repository.save(entity), PersonDTO.class);
