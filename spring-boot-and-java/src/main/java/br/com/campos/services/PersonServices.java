@@ -5,6 +5,8 @@ import br.com.campos.data.dto.v2.PersonDTOV2;
 import br.com.campos.exception.ResourceNotFoundException;
 import static br.com.campos.mapper.ObjectMapper.parseListObjects;
 import static br.com.campos.mapper.ObjectMapper.parseObject;
+
+import br.com.campos.mapper.custom.PersonMapper;
 import br.com.campos.model.Person;
 import br.com.campos.repository.PersonRepository;
 import org.slf4j.Logger;
@@ -23,6 +25,9 @@ public class PersonServices {
 
     @Autowired
     PersonRepository repository;
+
+    @Autowired
+    PersonMapper converter;
 
     public List<PersonDTO> findAll() {
         logger.info("Finding all persons");
@@ -43,9 +48,11 @@ public class PersonServices {
     }
 
     public PersonDTOV2 createV2(PersonDTOV2 person) {
-        logger.info("Person was created!");
-        var entity = parseObject(person, Person.class);
-        return parseObject(repository.save(entity), PersonDTO.class);
+        logger.info("Person was created V2!");
+
+        var entity = converter.convertDTOToEntity(person);
+
+        return converter.convertEntityToDTO(repository.save(entity));
     }
 
     public PersonDTO update(PersonDTO person) {
