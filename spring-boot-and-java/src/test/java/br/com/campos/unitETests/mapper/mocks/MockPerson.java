@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.campos.model.Person;
-import br.com.campos.data.dto.PersonDTO;
+import br.com.campos.data.dto.v1.PersonDTO;
 
 public class MockPerson {
 
