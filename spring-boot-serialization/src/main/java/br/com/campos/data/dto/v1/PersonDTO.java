@@ -10,8 +10,7 @@ import java.util.Date;
 import java.util.Objects;
 
 // @JsonPropertyOrder({"id", "first_name", "last_name", "address", "gender"})
-// @JsonFilter("PersonFilter")
-// @XmlRootElement
+@JsonFilter("PersonFilter")
 public class PersonDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
