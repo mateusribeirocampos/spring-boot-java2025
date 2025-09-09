@@ -3,13 +3,15 @@ package br.com.campos.data.dto.v1;
 import br.com.campos.serializer.GenderSerializer;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
 // @JsonPropertyOrder({"id", "first_name", "last_name", "address", "gender"})
-@JsonFilter("PersonFilter")
+// @JsonFilter("PersonFilter")
+// @XmlRootElement
 public class PersonDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
