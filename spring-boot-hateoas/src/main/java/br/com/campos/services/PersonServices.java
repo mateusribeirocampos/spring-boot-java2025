@@ -43,7 +43,7 @@ public class PersonServices {
         var entity = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No records found for this id!"));
         var dto = parseObject(entity, PersonDTO.class);
-        addHateoasLinks(id, dto);
+        addHateoasLinks(dto);
         return dto;
     }
 
@@ -81,11 +81,11 @@ public class PersonServices {
         repository.delete(entity);
     }
 
-    private static void addHateoasLinks(Long id, PersonDTO dto) {
-        dto.add(linkTo(methodOn(PersonController.class).findById(id)).withSelfRel().withType("GET"));
+    private static void addHateoasLinks(PersonDTO dto) {
+        dto.add(linkTo(methodOn(PersonController.class).findById(dto.getId())).withSelfRel().withType("GET"));
         dto.add(linkTo(methodOn(PersonController.class).findAll()).withRel("findAll").withType("GET"));
         dto.add(linkTo(methodOn(PersonController.class).create(dto)).withRel("create").withType("POST"));
         dto.add(linkTo(methodOn(PersonController.class).update(dto)).withRel("update").withType("PUT"));
-        dto.add(linkTo(methodOn(PersonController.class).delete(id)).withRel("delete").withType("DELETE"));
+        dto.add(linkTo(methodOn(PersonController.class).delete(dto.getId())).withRel("delete").withType("DELETE"));
     }
 }
