@@ -19,12 +19,10 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 
 @Service
 public class PersonServices {
 
-    private final AtomicLong counter = new AtomicLong();
     private Logger logger = LoggerFactory.getLogger(PersonServices.class.getName());
 
     @Autowired
@@ -87,11 +85,8 @@ public class PersonServices {
         repository.delete(entity);
     }
 
-<<<<<<< HEAD
+
     private void addHateoasLinks(PersonDTO dto) {
-=======
-    private static void addHateoasLinks(PersonDTO dto) {
->>>>>>> 566cb6b6c668029e1a733deb7a2aa1ef7d5ff91a
         dto.add(linkTo(methodOn(PersonController.class).findById(dto.getId())).withSelfRel().withType("GET"));
         dto.add(linkTo(methodOn(PersonController.class).findAll()).withRel("findAll").withType("GET"));
         dto.add(linkTo(methodOn(PersonController.class).create(dto)).withRel("create").withType("POST"));
