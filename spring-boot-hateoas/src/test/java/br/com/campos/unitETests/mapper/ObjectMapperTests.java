@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.List;
 
 import br.com.campos.data.dto.v1.PersonDTO;
+import br.com.campos.data.dto.v2.PersonDTOV2;
 import br.com.campos.model.Person;
 import br.com.campos.unitETests.mapper.mocks.MockPerson;
 import org.junit.jupiter.api.BeforeEach;
@@ -93,5 +94,25 @@ public class ObjectMapperTests {
         assertEquals("Last Name Test12", outputTwelve.getLastName());
         assertEquals("Address Test12", outputTwelve.getAddress());
         assertEquals("Male", outputTwelve.getGender());
+    }
+
+    @Test
+    public void parseEntityToDTOTestV2() {
+        PersonDTOV2 output = parseObject(inputObject.mockEntity(), PersonDTOV2.class);
+        assertEquals(Long.valueOf(0L), output.getId());
+        assertEquals("First Name Test0", output.getFirstName());
+        assertEquals("Last Name Test0", output.getLastName());
+        assertEquals("Address Test0", output.getAddress());
+        assertEquals("Male", output.getGender());
+    }
+
+    @Test
+    public void parseDTOToEntityTestV2() {
+        Person output = parseObject(inputObject.mockDTO(), Person.class);
+        assertEquals(Long.valueOf(0L), output.getId());
+        assertEquals("First Name Test0", output.getFirstName());
+        assertEquals("Last Name Test0", output.getLastName());
+        assertEquals("Address Test0", output.getAddress());
+        assertEquals("Male", output.getGender());
     }
 }

@@ -3,6 +3,7 @@ package br.com.campos.unitETests.mapper.mocks;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.campos.data.dto.v2.PersonDTOV2;
 import br.com.campos.model.Person;
 import br.com.campos.data.dto.v1.PersonDTO;
 
@@ -51,6 +52,16 @@ public class MockPerson {
         person.setId(number.longValue());
         person.setLastName("Last Name Test" + number);
         return person;
+    }
+
+    public PersonDTOV2 mockDTOV2(Integer number) {
+        PersonDTOV2 personv2 = new PersonDTOV2();
+        personv2.setAddress("Address Test" + number);
+        personv2.setFirstName("First Name Test" + number);
+        personv2.setGender(((number % 2)==0) ? "Male" : "Female");
+        personv2.setId(number.longValue());
+        personv2.setLastName("Last Name Test" + number);
+        return personv2;
     }
 
 }

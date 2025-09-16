@@ -3,6 +3,7 @@ package br.com.campos.services;
 import br.com.campos.controller.PersonController;
 import br.com.campos.data.dto.v1.PersonDTO;
 import br.com.campos.data.dto.v2.PersonDTOV2;
+import br.com.campos.exception.RequiredObjectIsNullException;
 import br.com.campos.exception.ResourceNotFoundException;
 import static br.com.campos.mapper.ObjectMapper.parseListObjects;
 import static br.com.campos.mapper.ObjectMapper.parseObject;
@@ -48,6 +49,9 @@ public class PersonServices {
     }
 
     public PersonDTO create(PersonDTO person) {
+
+        if (person == null) throw new RequiredObjectIsNullException();
+
         logger.info("Person was created!");
         var entity = parseObject(person, Person.class);
         var dto = parseObject(repository.save(entity), PersonDTO.class);
@@ -56,14 +60,19 @@ public class PersonServices {
     }
 
     public PersonDTOV2 createV2(PersonDTOV2 person) {
+        if (person == null) throw new RequiredObjectIsNullException();
+
         logger.info("Person was created V2!");
-
         var entity = converter.convertDTOToEntity(person);
-
-        return converter.convertEntityToDTO(repository.save(entity));
+        var dto = converter.convertEntityToDTO(repository.save(entity));
+        addHateoasLinksV2(dto);
+        return dto;
     }
 
     public PersonDTO update(PersonDTO person) {
+
+        if (person == null) throw new RequiredObjectIsNullException();
+
         logger.info("Person was updated!");
 
         Person entity = repository.findById(person.getId())
@@ -92,5 +101,9 @@ public class PersonServices {
         dto.add(linkTo(methodOn(PersonController.class).create(dto)).withRel("create").withType("POST"));
         dto.add(linkTo(methodOn(PersonController.class).update(dto)).withRel("update").withType("PUT"));
         dto.add(linkTo(methodOn(PersonController.class).delete(dto.getId())).withRel("delete").withType("DELETE"));
+    }
+
+    private void addHateoasLinksV2(PersonDTOV2 dto) {
+        dto.add(linkTo(methodOn(PersonController.class).create((PersonDTOV2) null)).withSelfRel().withType("POST"));
     }
 }
