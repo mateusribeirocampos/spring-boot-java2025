@@ -1,10 +1,12 @@
 package br.com.campos.data.dto.v2;
 
+import org.springframework.hateoas.RepresentationModel;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
-public class PersonDTOV2 implements Serializable {
+public class PersonDTOV2 extends RepresentationModel<PersonDTOV2> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
