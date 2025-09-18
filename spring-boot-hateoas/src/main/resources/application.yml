@@ -19,3 +19,8 @@ logging:
   level:
     #root: WARN
     br.com.campos: DEBUG
+springdoc:
+  paths-to-match:
+    - /api/**/v1/**
+  swagger-ui:
+    use-root-path: true

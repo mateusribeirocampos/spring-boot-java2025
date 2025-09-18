@@ -2,8 +2,16 @@ package br.com.campos.controller;
 
 import br.com.campos.data.dto.v1.PersonDTO;
 import br.com.campos.data.dto.v2.PersonDTOV2;
+import br.com.campos.model.Person;
 import br.com.campos.services.PersonServices;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +22,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/person/v1")
+@Tag(name = "Person", description = "Endpoints for managing person")
 public class PersonController {
 
     @Autowired
@@ -22,8 +31,26 @@ public class PersonController {
     @GetMapping(value = "/{id}",
             produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE }
     )
+    @Operation(
+            summary = "Finds a person",
+            description = "Finds a person by their Id.",
+            tags = {"PersonDTO", "Person"},
+            responses = {
+                    @ApiResponse(
+                            description = "Success",
+                            responseCode = "200",
+                            content = {
+                                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = PersonDTO.class)),
+                                    @Content(mediaType = MediaType.APPLICATION_XML_VALUE, schema = @Schema(implementation = PersonDTO.class)),
+                                    @Content(mediaType = MediaType.APPLICATION_YAML_VALUE, schema = @Schema(implementation = PersonDTO.class))
+                            }
+                    ),
+                    @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
+                    @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content)
+            }
+    )
 
-    public PersonDTO findById(@PathVariable("id") Long id) {
+    public PersonDTO findById(@Parameter(description = "The Id of the person to find.") @PathVariable("id") Long id) {
         var person = service.findById(id);
         person.setBirthDay(new Date());
         person.setPhoneNumber("+55 31 992359874");
@@ -35,6 +62,27 @@ public class PersonController {
             produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE }
     )
 
+    @Operation(
+            summary = "Finds a people",
+            description = "Finds all people.",
+            tags = {"PersonDTO", "Person"},
+            responses = {
+                    @ApiResponse(
+                            description = "Success",
+                            responseCode = "200",
+                            content = {
+                                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                            array = @ArraySchema(schema = @Schema(implementation = PersonDTO.class))),
+                                    @Content(mediaType = MediaType.APPLICATION_XML_VALUE,
+                                            array = @ArraySchema(schema = @Schema(implementation = PersonDTO.class))),
+                                    @Content(mediaType = MediaType.APPLICATION_YAML_VALUE,
+                                            array = @ArraySchema(schema = @Schema(implementation = PersonDTO.class))),
+                            }
+                    ),
+                    @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
+                    @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content)
+            }
+    )
     public List<PersonDTO> findAll() {
         return service.findAll();
     }
