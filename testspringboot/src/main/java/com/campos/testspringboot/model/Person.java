@@ -10,6 +10,7 @@ import org.hibernate.annotations.GenericGenerator;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
@@ -74,12 +75,12 @@ public class Person implements Serializable {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
 
     public Person() {
     }
 
-    public Person(UUID id, String firstName, String lastName, String email, String phoneNumber, String password, Date birthDate, String address, String state, String gender, LocalDate createdAt) {
+    public Person(UUID id, String firstName, String lastName, String email, String phoneNumber, String password, Date birthDate, String address, String state, String gender, LocalDateTime createdAt) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -173,11 +174,11 @@ public class Person implements Serializable {
         this.gender = gender;
     }
 
-    public LocalDate getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDate createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
