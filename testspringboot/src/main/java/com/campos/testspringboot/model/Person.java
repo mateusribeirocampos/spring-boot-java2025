@@ -29,12 +29,12 @@ public class Person implements Serializable {
 
     @NotBlank(message = "First name is required")
     @Size(max = 80, message = "First name must not exceed 80 characters")
-    @Column(name = "first_name")
+    @Column(name = "firstName")
     private String firstName;
 
     @NotBlank(message = "Last name is required")
     @Size(max = 80, message = "Last name must not exceed 80 characters")
-    @Column(name = "last_name")
+    @Column(name = "lastName")
     private String lastName;
 
     @NotBlank(message = "Last name is required")
@@ -44,7 +44,7 @@ public class Person implements Serializable {
 
     @NotBlank(message = "Phone number is required")
     @Size(max = 11, message = "Phone number must not exceed 11 characters")
-    @Column(name = "phone_number")
+    @Column(name = "phoneNumber")
     private String phoneNumber;
 
     @NotBlank(message = "Password is required")
@@ -53,7 +53,7 @@ public class Person implements Serializable {
     private String password;
 
     @JsonFormat(pattern = "dd/MM/yyyy")
-    @Column(name = "birth_date", nullable = false)
+    @Column(name = "birthDate", nullable = false)
     private Date birthDate;
 
     @NotBlank(message = "Address is required")
