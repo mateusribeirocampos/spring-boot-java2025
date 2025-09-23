@@ -1,11 +1,13 @@
 package com.campos.testspringboot.controller.v1;
 
+import com.campos.testspringboot.data.v1.PersonCreateDTO;
 import com.campos.testspringboot.data.v1.PersonDTO;
-import com.campos.testspringboot.model.Person;
 import com.campos.testspringboot.service.PersonService;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -42,6 +44,15 @@ public class PersonControllerV1 {
         return ResponseEntity.ok(personDTO);
     }
 
-    
+    @PostMapping(
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<PersonDTO> create(@Valid @RequestBody PersonCreateDTO createDTO) {
+        logger.info("POST /api/person/v1 - creating new person");
+
+        PersonDTO createdDTO = service.create(createDTO); // PersonCreateDTO -> Service
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdDTO);
+    }
 
 }

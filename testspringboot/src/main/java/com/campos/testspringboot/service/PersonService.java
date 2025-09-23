@@ -1,5 +1,6 @@
 package com.campos.testspringboot.service;
 
+import com.campos.testspringboot.data.v1.PersonCreateDTO;
 import com.campos.testspringboot.data.v1.PersonDTO;
 import com.campos.testspringboot.exception.RequiredObjectIsNullException;
 import com.campos.testspringboot.exception.ResourceNotFoundException;
@@ -11,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,15 +30,25 @@ public class PersonService {
 
    public PersonDTO findById(UUID id) {
        logger.info("Finding person with id: {}", id);
-
        if (id == null) {
            throw new RequiredObjectIsNullException("ID cannot be null");
        }
-
        Person entity = repository.findById(id)
                .orElseThrow(() -> new ResourceNotFoundException("no person found with id" + id));
-
        return ObjectMapper.parseObject(entity, PersonDTO.class);
+   }
+
+   public PersonDTO create(PersonCreateDTO createDTO) {
+        // Validation
+       if (createDTO == null) {
+           throw new RequiredObjectIsNullException("PersonCreateDTO cannot be null");
+       }
+       // PersonCreateDTO -> Person Entity
+       Person entity = ObjectMapper.parseObject(createDTO, Person.class);
+       // Save in the database (ID and createdAt automatically generated)
+       Person savedEntity = repository.save(entity);
+       // Person entity -> PersonDTO to response
+       return ObjectMapper.parseObject(savedEntity, PersonDTO.class);
    }
 
 }
