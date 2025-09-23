@@ -5,11 +5,11 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Objects;
@@ -23,7 +23,7 @@ public class Person implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(columnDefinition = "uuid", updatable = false, nullable = false)
     private UUID id;
 
@@ -52,10 +52,8 @@ public class Person implements Serializable {
     @Column(name = "password")
     private String password;
 
-    @NotBlank(message = "Birth date is required")
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonFormat(pattern = "dd/MM/yyyy")
-    @Column(name = "birth_date")
+    @Column(name = "birth_date", nullable = false)
     private Date birthDate;
 
     @NotBlank(message = "Address is required")
@@ -75,12 +73,21 @@ public class Person implements Serializable {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
 
     public Person() {
     }
 
-    public Person(UUID id, String firstName, String lastName, String email, String phoneNumber, String password, Date birthDate, String address, String state, String gender, LocalDateTime createdAt) {
+    public Person(UUID id, String firstName, String lastName, String email, String phoneNumber, String password, Date birthDate, String address, String state, String gender, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -92,6 +99,7 @@ public class Person implements Serializable {
         this.state = state;
         this.gender = gender;
         this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public UUID getId() {
@@ -182,15 +190,23 @@ public class Person implements Serializable {
         this.createdAt = createdAt;
     }
 
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Person person)) return false;
-        return Objects.equals(id, person.id) && Objects.equals(firstName, person.firstName) && Objects.equals(lastName, person.lastName) && Objects.equals(email, person.email) && Objects.equals(phoneNumber, person.phoneNumber) && Objects.equals(password, person.password) && Objects.equals(birthDate, person.birthDate) && Objects.equals(address, person.address) && Objects.equals(state, person.state) && Objects.equals(gender, person.gender) && Objects.equals(createdAt, person.createdAt);
+        return Objects.equals(id, person.id) && Objects.equals(firstName, person.firstName) && Objects.equals(lastName, person.lastName) && Objects.equals(email, person.email) && Objects.equals(phoneNumber, person.phoneNumber) && Objects.equals(password, person.password) && Objects.equals(birthDate, person.birthDate) && Objects.equals(address, person.address) && Objects.equals(state, person.state) && Objects.equals(gender, person.gender) && Objects.equals(createdAt, person.createdAt) && Objects.equals(updatedAt, person.updatedAt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, email, phoneNumber, password, birthDate, address, state, gender, createdAt);
+        return Objects.hash(id, firstName, lastName, email, phoneNumber, password, birthDate, address, state, gender, createdAt, updatedAt);
     }
 
     @Override
@@ -207,6 +223,7 @@ public class Person implements Serializable {
                 ", state='" + state + '\'' +
                 ", gender='" + gender + '\'' +
                 ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
                 '}';
     }
 }

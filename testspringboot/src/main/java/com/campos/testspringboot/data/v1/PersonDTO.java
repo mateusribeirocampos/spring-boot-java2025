@@ -24,19 +24,13 @@ public class PersonDTO {
     @Size(max = 2, message = "the state abbreviation must not exceed 2 characters")
     private String state;
 
-    @NotBlank(message = "The date abbreviation is required")
-    @Size(max = 19, message = "the state abbreviation must not exceed 19 characters")
-    @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
-    private LocalDateTime createdAt;
-
     public PersonDTO() {}
 
-    public PersonDTO(UUID id, String firstName, String lastName, String state, LocalDateTime createdAt) {
+    public PersonDTO(UUID id, String firstName, String lastName, String state) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.state = state;
-        this.createdAt = createdAt;
     }
 
     public UUID getId() {
@@ -71,23 +65,15 @@ public class PersonDTO {
         this.state = state;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof PersonDTO personDTO)) return false;
-        return Objects.equals(id, personDTO.id) && Objects.equals(firstName, personDTO.firstName) && Objects.equals(lastName, personDTO.lastName) && Objects.equals(state, personDTO.state) && Objects.equals(createdAt, personDTO.createdAt);
+        return Objects.equals(id, personDTO.id) && Objects.equals(firstName, personDTO.firstName) && Objects.equals(lastName, personDTO.lastName) && Objects.equals(state, personDTO.state);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, state, createdAt);
+        return Objects.hash(id, firstName, lastName, state);
     }
 
     @Override
@@ -97,7 +83,6 @@ public class PersonDTO {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", state='" + state + '\'' +
-                ", createdAt=" + createdAt +
                 '}';
     }
 }

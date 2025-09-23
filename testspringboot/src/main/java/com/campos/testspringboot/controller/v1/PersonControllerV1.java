@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -21,6 +22,17 @@ public class PersonControllerV1 {
     @Autowired
     private PersonService service;
 
+    @GetMapping(
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<List<PersonDTO>> findAll() {
+        logger.info("GET /api/person/v1 - Finding all people");
+
+        List<PersonDTO> listPersonDTO = service.findAll();
+        return ResponseEntity.ok().body(listPersonDTO);
+    }
+
+
     @GetMapping(value = "/{id}",
         produces = MediaType.APPLICATION_JSON_VALUE
     )
@@ -30,5 +42,6 @@ public class PersonControllerV1 {
         return ResponseEntity.ok(personDTO);
     }
 
+    
 
 }
