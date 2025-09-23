@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -21,6 +22,11 @@ public class PersonService {
 
     @Autowired
     PersonRepository repository;
+
+    public List<PersonDTO> findAll() {
+        logger.info("Finding all people");
+        return ObjectMapper.parseListObjects(repository.findAll(), PersonDTO.class);
+    }
 
    public PersonDTO findById(UUID id) {
        logger.info("Finding person with id: {}", id);
@@ -32,9 +38,7 @@ public class PersonService {
        Person entity = repository.findById(id)
                .orElseThrow(() -> new ResourceNotFoundException("no person found with id" + id));
 
-       PersonDTO dto = ObjectMapper.parseObject(entity, PersonDTO.class);
-       dto.setCreatedAt(LocalDateTime.now());
-       return dto;
+       return ObjectMapper.parseObject(entity, PersonDTO.class);
    }
 
 }
