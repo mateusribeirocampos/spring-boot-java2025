@@ -1,10 +1,12 @@
 package br.com.campos.config;
 
+import io.swagger.v3.core.jackson.ModelResolver;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Configuration
 public class OpenApiConfig {
@@ -15,12 +17,11 @@ public class OpenApiConfig {
                 .info(new Info()
                         .title("REST API RESTFULL JAVA SPRING BOOT")
                         .version("V1")
-                        .description("Rest API Spring Boot Java com kubernets and docker")
+                        .description("Rest API Spring Boot Java com Kubernetes and docker")
                         .termsOfService("https://github.com/mateusribeirocampos")
                         .license(new License()
                                 .name("Apache 2.0")
                                 .url("https://github.com/mateusribeirocampos"))
                 );
     }
-
 }

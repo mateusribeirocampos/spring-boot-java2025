@@ -3,12 +3,14 @@ package br.com.campos.data.dto.v1;
 import com.fasterxml.jackson.annotation.*;
 import org.springframework.hateoas.RepresentationModel;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
 public class PersonDTO extends RepresentationModel<PersonDTO> implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private Long id;
