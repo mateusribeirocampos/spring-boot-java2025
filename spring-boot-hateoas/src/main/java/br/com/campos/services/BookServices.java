@@ -44,7 +44,7 @@ public class BookServices {
     }
 
     public BookDTO create(BookDTO bookDTO) {
-        if (bookDTO == null) throw new RequiredObjectIsNullException("Book cannot be null");
+        if (bookDTO == null) throw new RequiredObjectIsNullException();
         logger.info("Adding a new book");
         var entity = parseObject(bookDTO, Books.class);
         var dto = parseObject(bookRepository.save(entity), BookDTO.class);
@@ -53,17 +53,17 @@ public class BookServices {
     }
 
     public BookDTO update(Long id, BookDTO bookDTO) {
-        if (bookDTO == null) throw new RequiredObjectIsNullException("Book cannot be null");
+        if (bookDTO == null) throw new RequiredObjectIsNullException();
         logger.info("Updating a book");
         Books entity = bookRepository.findById(id)
-                .orElseThrow(() -> new RequiredObjectIsNullException("Id cannot be null"));
+                .orElseThrow(() -> new ResourceNotFoundException("No records for this id"));
         entity.setAuthor(bookDTO.getAuthor());
         entity.setLaunchDate(bookDTO.getLaunchDate());
         entity.setPrice(bookDTO.getPrice());
         entity.setTitle(bookDTO.getTitle());
 
         var dto = parseObject(bookRepository.save(entity), BookDTO.class);
-        addHateoasBook(bookDTO);
+        addHateoasBook(dto);
         return dto;
     }
 
