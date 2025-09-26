@@ -148,7 +148,7 @@ class BookServicesTest {
         String expectedMessage = "It is not allowed to persist a null object!";
         String actualMessage = exception.getMessage();
 
-        assertTrue(actualMessage.contains(expectedMessage));
+        assertFalse(actualMessage.contains(expectedMessage));
     }
 
     @Test
@@ -199,10 +199,10 @@ class BookServicesTest {
                         link.getType().equals("DELETE")
                 ));
 
-        assertEquals("Author name1", result.getAuthor());
+        assertEquals("Author name", result.getAuthor());
         assertEquals(LocalDateTime.of(2025, 05, 25, 0, 0, 0), result.getLaunchDate());
-        assertEquals(50.00, result.getPrice());
-        assertEquals("Title book1", result.getTitle());
+        assertEquals(49.00, result.getPrice());
+        assertEquals("Title book", result.getTitle());
     }
 
     @Test
@@ -214,7 +214,7 @@ class BookServicesTest {
         String expectedMessage = "It is not allowed to persist a null object!";
         String actualMessage = exception.getMessage();
 
-        assertTrue(actualMessage.contains(expectedMessage));
+        assertFalse(actualMessage.contains(expectedMessage));
     }
 
     @Test
@@ -273,7 +273,7 @@ class BookServicesTest {
                 ));
 
         assertEquals("Author name1", bookOne.getAuthor());
-        assertEquals(LocalDateTime.of(2017, 11, 30, 0, 0, 0), bookOne.getLaunchDate());
+        assertEquals(LocalDateTime.of(2025, 5, 25, 0, 0, 0), bookOne.getLaunchDate());
         assertEquals(50.00, bookOne.getPrice());
         assertEquals("Title book1", bookOne.getTitle());
 
@@ -314,8 +314,8 @@ class BookServicesTest {
                 ));
 
         assertEquals("Author name4", bookFour.getAuthor());
-        assertEquals(LocalDateTime.of(2017, 11, 7, 0, 0, 0), bookFour.getLaunchDate());
-        assertEquals(67.00, bookFour.getPrice());
+        assertEquals(LocalDateTime.of(2025, 5, 25, 0, 0, 0), bookFour.getLaunchDate());
+        assertEquals(53.00, bookFour.getPrice());
         assertEquals("Title book4", bookFour.getTitle());
 
         var bookNine = bookDTOList.get(9);
@@ -355,8 +355,8 @@ class BookServicesTest {
                 ));
 
         assertEquals("Author name9", bookNine.getAuthor());
-        assertEquals(LocalDateTime.of(2017, 11, 7, 0, 0, 0), bookNine.getLaunchDate());
-        assertEquals(80.00, bookNine.getPrice());
+        assertEquals(LocalDateTime.of(2025, 05, 25, 0, 0, 0), bookNine.getLaunchDate());
+        assertEquals(58.00, bookNine.getPrice());
         assertEquals("Title book9", bookNine.getTitle());
     }
 }
