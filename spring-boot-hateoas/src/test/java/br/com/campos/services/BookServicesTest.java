@@ -148,7 +148,7 @@ class BookServicesTest {
         String expectedMessage = "It is not allowed to persist a null object!";
         String actualMessage = exception.getMessage();
 
-        assertFalse(actualMessage.contains(expectedMessage));
+        assertTrue(actualMessage.contains(expectedMessage));
     }
 
     @Test
@@ -206,15 +206,15 @@ class BookServicesTest {
     }
 
     @Test
-    void testUpdateWithNullPerson() {
+    void testUpdateWithNullBook() {
         Exception exception = assertThrows(RequiredObjectIsNullException.class,
                 () -> {
-                    services.update(null, null);
+                    services.update(1L, null);
                 });
         String expectedMessage = "It is not allowed to persist a null object!";
         String actualMessage = exception.getMessage();
 
-        assertFalse(actualMessage.contains(expectedMessage));
+        assertTrue(actualMessage.contains(expectedMessage));
     }
 
     @Test
