@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: rest-with-spring-boot-and-java
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/spring_boot_java2025_db
+    username: mateusribeirodecampos
+    password: lamat
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        format_sql: true
+
+  flyway:
+    locations: classpath:db/migration/postgresql
+    baseline-on-migrate: true
+    validate-on-migrate: true

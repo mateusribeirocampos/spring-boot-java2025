@@ -1,24 +1,21 @@
 spring:
   application:
     name: rest-with-spring-boot-and-java
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${DATABASE_URL}
-    username: ${DATABASE_USERNAME}
-    password: ${DATABASE_PASSWORD}
+  profiles:
+    # macOS (PostgreSQL): active: ${SPRING_PROFILES_ACTIVE:postgresql}
+    # Windows (MySQL): active: ${SPRING_PROFILES_ACTIVE:mysql}
+    active: ${SPRING_PROFILES_ACTIVE:postgresql}
   jpa:
     hibernate:
-      ddl-auto: update
-    properties:
-      hibernate:
-        #dialect: org.hibernate.dialect.MySQLDialect // removed warning
+      ddl-auto: validate
     show-sql: false
-
     open-in-view: false
+
 logging:
   level:
     #root: WARN
     br.com.campos: DEBUG
+
 springdoc:
   paths-to-match:
     - /api/**/v1/**
