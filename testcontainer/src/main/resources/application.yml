@@ -1,6 +1,5 @@
 spring:
   application:
     name: testcontainer
-
-    Profile:
-      active: test
+  profiles:
+    active: test
