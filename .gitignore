@@ -23,6 +23,13 @@ local.properties
 .loadpath
 .recommenders
 
+# Arch Linux
+HELP.md
+.mvn
+mvnw
+mvnw.cmd
+
+
 # External tool builders
 .externalToolBuilders/
 
