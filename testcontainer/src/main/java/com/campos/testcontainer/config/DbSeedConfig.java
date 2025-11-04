@@ -31,8 +31,8 @@ public class DbSeedConfig implements CommandLineRunner {
 
         System.out.println("Seeding database...");
 
-        User user1 = new User(null, "Nikola", "Tesla", "Male", "nikola.tesla@gmail.com", LocalDate.parse("09/09/1983", dtf), "31998636521", "123456", "Street 1046 view", "NY", Instant.now(), Instant.now());
-        User user2 = new User(null, "Elon", "Musk", "Male", "elon.musk@gmail.com", LocalDate.parse("25/05/1981", dtf), "31996325874", "123456", "Street 45 Bart", "CA", Instant.now(), Instant.now());
+        User user1 = new User(null, "Nikola", "Tesla", "Male", "nikola.tesla@gmail.com", LocalDate.parse("09/09/1983", dtf), "31998636521", "123456", "Street 1046 view", "NY");
+        User user2 = new User(null, "Elon", "Musk", "Male", "elon.musk@gmail.com", LocalDate.parse("25/05/1981", dtf), "31996325874", "123456", "Street 45 Bart", "CA");
 
         userRepository.saveAll(Arrays.asList(user1, user2));
 
