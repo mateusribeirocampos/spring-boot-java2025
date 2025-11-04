@@ -1,5 +1,6 @@
 package com.campos.testcontainer.controllers;
 
+import com.campos.testcontainer.data.dto.UserCreateDto;
 import com.campos.testcontainer.data.dto.UserResponseDto;
 import com.campos.testcontainer.entities.User;
 import com.campos.testcontainer.services.UserService;
@@ -7,11 +8,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -35,6 +35,17 @@ public class UserController {
         logger.info("GET /api/users/v1 - Finding users");
         List<UserResponseDto> userListDto = userService.findAll();
         return ResponseEntity.ok().body(userListDto);
+    }
+
+    @PostMapping
+    public ResponseEntity<UserResponseDto> create(@RequestBody UserCreateDto dto) {
+        UserResponseDto created = userService.create(dto);
+        URI uri = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(created.getId())
+                .toUri();
+        return ResponseEntity.created(uri).body(created);
     }
 
 }

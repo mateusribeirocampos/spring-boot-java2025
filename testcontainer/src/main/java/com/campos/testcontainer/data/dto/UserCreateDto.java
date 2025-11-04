@@ -1,62 +1,31 @@
-package com.campos.testcontainer.entities;
+package com.campos.testcontainer.data.dto;
 
-import jakarta.persistence.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.Column;
 
 import java.time.Instant;
 import java.time.LocalDate;
-import java.util.Objects;
 
-@Entity
-@Table(name = "user_tb")
-@EntityListeners(AuditingEntityListener.class)
-public class User {
+public class UserCreateDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(name = "first_name", nullable = false, length = 80)
     private String firstName;
-
-    @Column(name = "last_name", nullable = false, length = 80)
     private String lastName;
-
-    @Column(name = "gender", nullable = false, length = 6)
     private String gender;
-
-    @Column(name = "email", nullable = false, length = 100)
     private String email;
 
-    @Column(name = "birth_date", nullable = false)
+    @JsonProperty("birth_date")
     private LocalDate birthDate;
 
-    @Column(name = "phone_number", nullable = false, length = 11)
+    @JsonProperty("phone_number")
     private String phoneNumber;
 
-    @Column(name = "password", nullable = false, length = 80)
     private String password;
-
-    @Column(name = "address", nullable = false, length = 80)
     private String address;
-
-    @Column(name = "state", nullable = false, length = 2)
     private String state;
 
-    @CreatedDate
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private Instant createdAt;
+    public UserCreateDto() {}
 
-    @LastModifiedDate
-    @Column(name = "updated_at", nullable = false)
-    private Instant updateAt;
-
-    public User() {}
-
-    public User(Long id, String firstName, String lastName, String gender, String email, LocalDate birthDate, String phoneNumber, String password, String address, String state) {
-        this.id = id;
+    public UserCreateDto(String firstName, String lastName, String gender, String email, LocalDate birthDate, String phoneNumber, String password, String address, String state) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
@@ -66,14 +35,6 @@ public class User {
         this.password = password;
         this.address = address;
         this.state = state;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getFirstName() {
@@ -147,19 +108,4 @@ public class User {
     public void setState(String state) {
         this.state = state;
     }
-
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return Objects.equals(id, user.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(id);
-    }
 }
-
-
