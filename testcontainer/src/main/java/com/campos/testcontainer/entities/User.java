@@ -2,6 +2,7 @@ package com.campos.testcontainer.entities;
 
 import jakarta.persistence.*;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -41,14 +42,14 @@ public class User {
     private String state;
 
     @Column(name = "created_at", nullable = false)
-    private LocalDate createdAt;
+    private Instant createdAt;
 
     @Column(name = "updated_at", nullable = false)
-    private LocalDate updateAt;
+    private Instant updateAt;
 
     public User() {}
 
-    public User(Long id, String firstName, String lastName, String gender, String email, LocalDate birthDate, String phoneNumber, String password, String address, String state, LocalDate createdAt, LocalDate updateAt) {
+    public User(Long id, String firstName, String lastName, String gender, String email, LocalDate birthDate, String phoneNumber, String password, String address, String state, Instant createdAt, Instant updateAt) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -143,19 +144,19 @@ public class User {
         this.state = state;
     }
 
-    public LocalDate getCreatedAt() {
+    public Instant getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDate createdAt) {
+    public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDate getUpdateAt() {
+    public Instant getUpdateAt() {
         return updateAt;
     }
 
-    public void setUpdateAt(LocalDate updateAt) {
+    public void setUpdateAt(Instant updateAt) {
         this.updateAt = updateAt;
     }
 

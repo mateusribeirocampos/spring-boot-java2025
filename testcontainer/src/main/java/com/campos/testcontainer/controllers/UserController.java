@@ -1,5 +1,6 @@
 package com.campos.testcontainer.controllers;
 
+import com.campos.testcontainer.data.dto.UserResponseDto;
 import com.campos.testcontainer.entities.User;
 import com.campos.testcontainer.services.UserService;
 import org.slf4j.Logger;
@@ -21,10 +22,10 @@ public class UserController {
     private UserService userService;
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<User> findById(@PathVariable Long id) {
+    public ResponseEntity<UserResponseDto> findById(@PathVariable Long id) {
         logger.info("GET /api/users/v1 - Finding one user");
-        User user = userService.findById(id);
-        return ResponseEntity.ok(user);
+        UserResponseDto userDto = userService.findById(id);
+        return ResponseEntity.ok(userDto);
     }
 
 }
