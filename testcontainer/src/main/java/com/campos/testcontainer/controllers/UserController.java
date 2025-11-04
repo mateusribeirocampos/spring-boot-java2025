@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/api/users/v1")
 public class UserController {
@@ -23,9 +25,16 @@ public class UserController {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<UserResponseDto> findById(@PathVariable Long id) {
-        logger.info("GET /api/users/v1 - Finding one user");
+        logger.info("GET /api/users/v1/${id} - Finding one user" + id);
         UserResponseDto userDto = userService.findById(id);
         return ResponseEntity.ok(userDto);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<UserResponseDto>> findAll() {
+        logger.info("GET /api/users/v1 - Finding users");
+        List<UserResponseDto> userListDto = userService.findAll();
+        return ResponseEntity.ok().body(userListDto);
     }
 
 }

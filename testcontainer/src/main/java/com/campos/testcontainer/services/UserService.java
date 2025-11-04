@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -29,5 +30,14 @@ public class UserService {
                 .orElseThrow(() -> new ResourceNotFoundException(id));
 
         return userMapper.toResponseDto(user);
+    }
+
+    public List<UserResponseDto> findAll() {
+        logger.info("Finding all users!");
+        List<User> user = userRepository.findAll();
+        for (User u : user) {
+            System.out.println(u.getPassword());
+        }
+        return userMapper.toResponseListDto(user);
     }
 }
