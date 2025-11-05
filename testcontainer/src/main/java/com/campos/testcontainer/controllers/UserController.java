@@ -26,7 +26,7 @@ public class UserController {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<UserResponseDto> findById(@PathVariable Long id) {
-        logger.info("GET /api/users/v1/${id} - Finding one user" + id);
+        logger.info("GET /api/users/v1/${id} - Finding one user{}", id);
         UserResponseDto userDto = userService.findById(id);
         return ResponseEntity.ok(userDto);
     }
@@ -40,6 +40,7 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<UserResponseDto> create(@RequestBody UserCreateDto dto) {
+        logger.info("POST /api/users/v1 - creating user");
         UserResponseDto created = userService.create(dto);
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -51,8 +52,15 @@ public class UserController {
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<UserResponseDto> update(@PathVariable Long id, @RequestBody UserUpdateDto dto) {
+        logger.info("PUT /api/users/v1/${di}{}user: {}", id, dto.getFirstName());
         UserResponseDto updated = userService.update(id, dto);
         return ResponseEntity.ok().body(updated);
     }
 
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<User> delete(@PathVariable Long id) {
+        logger.info("DELETE /api/users/v1/${id}{}", id);
+        userService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }

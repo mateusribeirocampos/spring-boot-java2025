@@ -12,6 +12,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,7 +51,7 @@ public class UserService {
 
     @Transactional
     public UserResponseDto create(UserCreateDto dto) {
-
+        logger.info("Creating user");
         if (userRepository.existsByEmail(dto.getEmail())) {
             throw new DatabaseException("Email was already registered!");
         }
@@ -63,6 +64,7 @@ public class UserService {
     }
 
     public UserResponseDto update(Long id, UserUpdateDto updateDto) {
+        logger.info("Updating user");
         try {
             User user = userRepository.getReferenceById(id);
             userMapper.UpdateEntityFromDto(updateDto, user);
@@ -72,6 +74,17 @@ public class UserService {
 
         } catch (EntityNotFoundException e) {
             throw new ResourceNotFoundException(id);
+        }
+    }
+
+    public void delete(Long id) {
+        logger.info("Deleting user");
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(id));
+        try{
+            userRepository.delete(user);
+        } catch (DataIntegrityViolationException e) {
+            throw new DatabaseException(e.getMessage());
         }
     }
 }
