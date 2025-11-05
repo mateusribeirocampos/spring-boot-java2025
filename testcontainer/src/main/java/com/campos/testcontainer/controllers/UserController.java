@@ -2,6 +2,7 @@ package com.campos.testcontainer.controllers;
 
 import com.campos.testcontainer.data.dto.UserCreateDto;
 import com.campos.testcontainer.data.dto.UserResponseDto;
+import com.campos.testcontainer.data.dto.UserUpdateDto;
 import com.campos.testcontainer.entities.User;
 import com.campos.testcontainer.services.UserService;
 import org.slf4j.Logger;
@@ -46,6 +47,12 @@ public class UserController {
                 .buildAndExpand(created.getId())
                 .toUri();
         return ResponseEntity.created(uri).body(created);
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<UserResponseDto> update(@PathVariable Long id, @RequestBody UserUpdateDto dto) {
+        UserResponseDto updated = userService.update(id, dto);
+        return ResponseEntity.ok().body(updated);
     }
 
 }

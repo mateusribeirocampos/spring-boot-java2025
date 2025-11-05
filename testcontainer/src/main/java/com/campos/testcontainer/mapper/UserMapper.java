@@ -2,6 +2,7 @@ package com.campos.testcontainer.mapper;
 
 import com.campos.testcontainer.data.dto.UserCreateDto;
 import com.campos.testcontainer.data.dto.UserResponseDto;
+import com.campos.testcontainer.data.dto.UserUpdateDto;
 import com.campos.testcontainer.entities.User;
 import org.springframework.stereotype.Component;
 
@@ -47,5 +48,41 @@ public class UserMapper {
         entity.setState(dto.getState());
 
         return entity;
+    }
+
+    public void UpdateEntityFromDto(UserUpdateDto dto, User entity) {
+        if (dto == null || entity == null ) return;
+
+        if (dto.getFirstName() != null) {
+            entity.setFirstName(dto.getFirstName());
+        }
+
+        if (dto.getLastName() != null) {
+            entity.setLastName(dto.getLastName());
+        }
+
+        if (dto.getGender() != null) {
+            entity.setGender(dto.getGender());
+        }
+
+        if (dto.getEmail() != null) {
+            entity.setEmail(dto.getEmail());
+        }
+
+        if (dto.getBirthDate() != null) {
+            entity.setBirthDate(dto.getBirthDate());
+        }
+
+        if (dto.getPhoneNumber() != null) {
+            entity.setPhoneNumber(dto.getPhoneNumber());
+        }
+
+        if (dto.getAddress() != null) {
+            entity.setAddress(dto.getAddress());
+        }
+
+        if (dto.getState() != null) {
+            entity.setState(dto.getState());
+        }
     }
 }
