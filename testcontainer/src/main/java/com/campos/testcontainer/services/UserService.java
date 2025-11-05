@@ -2,11 +2,13 @@ package com.campos.testcontainer.services;
 
 import com.campos.testcontainer.data.dto.UserCreateDto;
 import com.campos.testcontainer.data.dto.UserResponseDto;
+import com.campos.testcontainer.data.dto.UserUpdateDto;
 import com.campos.testcontainer.entities.User;
 import com.campos.testcontainer.mapper.UserMapper;
 import com.campos.testcontainer.repositories.UserRepository;
 import com.campos.testcontainer.services.exceptions.DatabaseException;
 import com.campos.testcontainer.services.exceptions.ResourceNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,5 +60,18 @@ public class UserService {
         User saveUser = userRepository.save(user);
         System.out.println("Return with user filter by mapper: " + userMapper.toResponseDto(saveUser));
         return userMapper.toResponseDto(saveUser);
+    }
+
+    public UserResponseDto update(Long id, UserUpdateDto updateDto) {
+        try {
+            User user = userRepository.getReferenceById(id);
+            userMapper.UpdateEntityFromDto(updateDto, user);
+
+            User updatedUser = userRepository.save(user);
+            return userMapper.toResponseDto(updatedUser);
+
+        } catch (EntityNotFoundException e) {
+            throw new ResourceNotFoundException(id);
+        }
     }
 }
