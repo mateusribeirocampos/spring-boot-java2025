@@ -2,4 +2,4 @@ spring:
   application:
     name: testcontainer
   profiles:
-    active: test
+    active: mysql
