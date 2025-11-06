@@ -13,7 +13,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
 @Configuration
-@Profile({"test", "dev"})
+@Profile({"test"})  // Removido "mysql" - agora só roda em testes
 public class DbSeedConfig implements CommandLineRunner {
 
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
