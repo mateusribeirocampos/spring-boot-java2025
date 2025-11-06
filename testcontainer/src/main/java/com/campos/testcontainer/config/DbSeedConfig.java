@@ -1,25 +1,30 @@
 package com.campos.testcontainer.config;
 
+import com.campos.testcontainer.entities.Book;
 import com.campos.testcontainer.entities.User;
+import com.campos.testcontainer.repositories.BookRepository;
 import com.campos.testcontainer.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
-import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
 @Configuration
-@Profile({"test"})  // Removido "mysql" - agora só roda em testes
+@Profile({"test"})
 public class DbSeedConfig implements CommandLineRunner {
 
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private BookRepository bookRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -35,6 +40,10 @@ public class DbSeedConfig implements CommandLineRunner {
         User user2 = new User(null, "Elon", "Musk", "Male", "elon.musk@gmail.com", LocalDate.parse("25/05/1981", dtf), "31996325874", "123456", "Street 45 Bart", "CA");
 
         userRepository.saveAll(Arrays.asList(user1, user2));
+
+        Book book1 = new Book(null, "Robert C. Martin", LocalDateTime.of(2008,8,1,0,0), 89.99, "Clean Code", "A Handbook of Agile Software Craftsmanship");
+
+        bookRepository.save(book1);
 
         System.out.println("Database seeded successfully!");
     }
