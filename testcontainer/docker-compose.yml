@@ -1,0 +1,91 @@
+version: '3.8'
+
+services:
+  # MySQL Database
+  mysql:
+    image: mysql:8.0
+    container_name: testcontainer-mysql
+    environment:
+      # Lê do arquivo .env (valores padrão se .env não existir)
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root123}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-testcontainer}
+      MYSQL_USER: ${MYSQL_USER:-dev_user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-dev_pass}
+    ports:
+      - "${MYSQL_PORT:-3306}:3306"
+    volumes:
+      # Persistência de dados
+      - mysql_data:/var/lib/mysql
+      # Scripts de inicialização (opcional)
+      # - ./init-scripts:/docker-entrypoint-initdb.d
+    networks:
+      - testcontainer-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD:-root123}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    restart: unless-stopped
+
+  # PostgreSQL Database (opcional - descomente se necessário)
+  # postgresql:
+  #   image: postgres:16-alpine
+  #   container_name: testcontainer-postgres
+  #   environment:
+  #     POSTGRES_DB: testcontainer
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_PASSWORD: postgres123
+  #   ports:
+  #     - "5432:5432"
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   networks:
+  #     - testcontainer-network
+  #   healthcheck:
+  #     test: ["CMD-SHELL", "pg_isready -U postgres"]
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 5
+  #   restart: unless-stopped
+
+  # Redis Cache (opcional - descomente se necessário)
+  # redis:
+  #   image: redis:7-alpine
+  #   container_name: testcontainer-redis
+  #   ports:
+  #     - "6379:6379"
+  #   volumes:
+  #     - redis_data:/data
+  #   networks:
+  #     - testcontainer-network
+  #   healthcheck:
+  #     test: ["CMD", "redis-cli", "ping"]
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 5
+  #   restart: unless-stopped
+
+  # Adminer - Interface web para gerenciar bancos (opcional)
+  adminer:
+    image: adminer:latest
+    container_name: testcontainer-adminer
+    ports:
+      - "8081:8080"
+    networks:
+      - testcontainer-network
+    restart: unless-stopped
+    depends_on:
+      - mysql
+
+volumes:
+  mysql_data:
+    driver: local
+  # postgres_data:
+  #   driver: local
+  # redis_data:
+  #   driver: local
+
+networks:
+  testcontainer-network:
+    driver: bridge
