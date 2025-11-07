@@ -1,0 +1,63 @@
+package com.campos.testcontainer.controllers;
+
+import com.campos.testcontainer.entities.Book;
+import com.campos.testcontainer.services.BookService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
+import java.util.List;
+
+@RestController
+@RequestMapping(value = "/api/books/v1")
+public class BookController {
+
+    private static final Logger logger = LoggerFactory.getLogger(BookController.class);
+
+    @Autowired
+    private BookService bookService;
+
+    @GetMapping
+    public ResponseEntity<List<Book>> findAll() {
+        logger.info("GET /api/books/v1 - Finding all books");
+        List<Book> bookList = bookService.findAll();
+        return ResponseEntity.ok().body(bookList);
+    }
+
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<Book> findById(@PathVariable Long id) {
+        logger.info("GET /api/books/v1/{} - Finding one book", id);
+        Book book = bookService.findById(id);
+        return ResponseEntity.ok().body(book);
+    }
+
+    @PostMapping
+    public ResponseEntity<Book> create(@RequestBody Book book) {
+        logger.info("POST /api/books/v1 - creating book - {}", book.getTitle());
+        Book createdBook = bookService.create(book);
+        URI uri = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("{id}")
+                .buildAndExpand(createdBook.getId())
+                .toUri();
+        return ResponseEntity.created(uri).body(createdBook);
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Book> update(@PathVariable Long id, @RequestBody Book book) {
+        logger.info("PUT /api/books/v1/{} - updating book", id);
+        book = bookService.update(id, book);
+        return ResponseEntity.ok().body(book);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        logger.info("DELETING /api/books/v1/{} - deleting book", id);
+        bookService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+}
