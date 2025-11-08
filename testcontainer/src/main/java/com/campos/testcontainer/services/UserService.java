@@ -62,6 +62,7 @@ public class UserService {
         return userMapper.toResponseDto(saveUser);
     }
 
+    @Transactional
     public UserResponseDto update(Long id, UserUpdateDto updateDto) {
         logger.info("Updating user");
         try {
@@ -76,6 +77,7 @@ public class UserService {
         }
     }
 
+    @Transactional
     public void delete(Long id) {
         logger.info("Deleting user");
         User user = userRepository.findById(id)

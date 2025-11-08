@@ -5,6 +5,7 @@ import com.campos.testcontainer.services.BookService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -21,21 +22,22 @@ public class BookController {
     @Autowired
     private BookService bookService;
 
-    @GetMapping
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Book>> findAll() {
         logger.info("GET /api/books/v1 - Finding all books");
         List<Book> bookList = bookService.findAll();
         return ResponseEntity.ok().body(bookList);
     }
 
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Book> findById(@PathVariable Long id) {
         logger.info("GET /api/books/v1/{} - Finding one book", id);
         Book book = bookService.findById(id);
         return ResponseEntity.ok().body(book);
     }
 
-    @PostMapping
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Book> create(@RequestBody Book book) {
         logger.info("POST /api/books/v1 - creating book - {}", book.getTitle());
         Book createdBook = bookService.create(book);
@@ -47,7 +49,8 @@ public class BookController {
         return ResponseEntity.created(uri).body(createdBook);
     }
 
-    @PutMapping(value = "/{id}")
+    @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Book> update(@PathVariable Long id, @RequestBody Book book) {
         logger.info("PUT /api/books/v1/{} - updating book", id);
         book = bookService.update(id, book);
