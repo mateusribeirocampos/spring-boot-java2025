@@ -18,7 +18,7 @@ spring:
         format_sql: true
 
   flyway:
-    enabled: false
+    enabled: true
 
   h2:
     console:

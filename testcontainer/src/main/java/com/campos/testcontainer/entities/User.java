@@ -1,5 +1,6 @@
 package com.campos.testcontainer.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -7,7 +8,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "user_tb")
@@ -52,6 +55,13 @@ public class User {
     @LastModifiedDate
     @Column(name = "updated_at", nullable = false)
     private Instant updateAt;
+
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(name = "user_book_tb",
+    joinColumns = @JoinColumn(name = "user_id"),
+    inverseJoinColumns = @JoinColumn(name = "book_id"))
+    private Set<Book> books = new HashSet<>();
 
     public User() {}
 
@@ -148,6 +158,13 @@ public class User {
         this.state = state;
     }
 
+    public Set<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(Set<Book> books) {
+        this.books = books;
+    }
 
     @Override
     public boolean equals(Object o) {

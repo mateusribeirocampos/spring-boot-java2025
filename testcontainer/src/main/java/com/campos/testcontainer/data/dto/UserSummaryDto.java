@@ -2,13 +2,13 @@ package com.campos.testcontainer.data.dto;
 
 import java.util.Objects;
 
-public class UserSummary {
+public class UserSummaryDto {
 
     private Long id;
     private String firstName;
     private String lastName;
 
-    public UserSummary(Long id, String firstName, String lastName) {
+    public UserSummaryDto(Long id, String firstName, String lastName) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -41,7 +41,7 @@ public class UserSummary {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        UserSummary that = (UserSummary) o;
+        UserSummaryDto that = (UserSummaryDto) o;
         return Objects.equals(id, that.id);
     }
 

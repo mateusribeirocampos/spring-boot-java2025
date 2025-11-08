@@ -1,5 +1,6 @@
 package com.campos.testcontainer.entities;
 
+import com.campos.testcontainer.data.dto.UserSummaryDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -9,7 +10,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "book_tb")
@@ -35,7 +38,7 @@ public class Book implements Serializable {
 
     @Column(columnDefinition = "TEXT")
     private String description;
-
+3
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
@@ -43,6 +46,9 @@ public class Book implements Serializable {
     @LastModifiedDate
     @Column(name = "updated_at", nullable = false)
     private Instant updateAt;
+
+    @ManyToMany(mappedBy = "books")
+    private Set<User> users = new HashSet<>();
 
     public Book() {}
 
@@ -101,6 +107,14 @@ public class Book implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
 
     @Override
