@@ -1,7 +1,8 @@
 package com.campos.testcontainer.controllers;
 
+import com.campos.testcontainer.data.dto.bookdot.BookCreateDto;
 import com.campos.testcontainer.data.dto.bookdot.BookResponseDto;
-import com.campos.testcontainer.entities.Book;
+import com.campos.testcontainer.data.dto.bookdot.BookUpdateDto;
 import com.campos.testcontainer.services.BookService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,26 +24,12 @@ public class BookController {
     @Autowired
     private BookService bookService;
 
-//    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<List<Book>> findAll() {
-//        logger.info("GET /api/books/v1 - Finding all books");
-//        List<Book> bookList = bookService.findAll();
-//        return ResponseEntity.ok().body(bookList);
-//    }
-
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<BookResponseDto>> findAll() {
         logger.info("GET /api/books/v1 - Finding all books");
         List<BookResponseDto> bookListDto = bookService.findAll();
         return ResponseEntity.ok().body(bookListDto);
     }
-
-//    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<Book> findById(@PathVariable Long id) {
-//        logger.info("GET /api/books/v1/{} - Finding one book", id);
-//        Book book = bookService.findById(id);
-//        return ResponseEntity.ok().body(book);
-//    }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<BookResponseDto> findById(@PathVariable Long id) {
@@ -53,9 +40,11 @@ public class BookController {
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Book> create(@RequestBody Book book) {
-        logger.info("POST /api/books/v1 - creating book - {}", book.getTitle());
-        Book createdBook = bookService.create(book);
+    public ResponseEntity<BookResponseDto> create(@RequestBody BookCreateDto dto) {
+        logger.info("POST /api/books/v1 - creating book - {}", dto.getTitle());
+
+        BookResponseDto createdBook = bookService.create(dto);
+
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("{id}")
@@ -66,10 +55,12 @@ public class BookController {
 
     @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Book> update(@PathVariable Long id, @RequestBody Book book) {
+    public ResponseEntity<BookResponseDto> update(
+            @PathVariable Long id,
+            @RequestBody BookUpdateDto book) {
         logger.info("PUT /api/books/v1/{} - updating book", id);
-        book = bookService.update(id, book);
-        return ResponseEntity.ok().body(book);
+        BookResponseDto updatedBook = bookService.update(id, book);
+        return ResponseEntity.ok().body(updatedBook);
     }
 
     @DeleteMapping(value = "/{id}")
