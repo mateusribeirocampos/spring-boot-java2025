@@ -61,7 +61,7 @@ public class User {
     @JoinTable(name = "user_book_tb",
     joinColumns = @JoinColumn(name = "user_id"),
     inverseJoinColumns = @JoinColumn(name = "book_id"))
-    private Set<Book> books = new HashSet<>();
+    private Set<Book> authoredBooks = new HashSet<>();
 
     public User() {}
 
@@ -158,12 +158,12 @@ public class User {
         this.state = state;
     }
 
-    public Set<Book> getBooks() {
-        return books;
+    public Set<Book> getAuthoredBooks() {
+        return authoredBooks;
     }
 
-    public void setBooks(Set<Book> books) {
-        this.books = books;
+    public void setAuthoredBooks(Set<Book> authoredBooks) {
+        this.authoredBooks = authoredBooks;
     }
 
     @Override

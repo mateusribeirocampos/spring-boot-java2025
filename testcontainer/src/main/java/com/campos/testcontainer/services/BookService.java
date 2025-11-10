@@ -1,6 +1,8 @@
 package com.campos.testcontainer.services;
 
+import com.campos.testcontainer.data.dto.bookdot.BookResponseDto;
 import com.campos.testcontainer.entities.Book;
+import com.campos.testcontainer.mapper.BookMapper;
 import com.campos.testcontainer.repositories.BookRepository;
 import com.campos.testcontainer.services.exceptions.DatabaseException;
 import com.campos.testcontainer.services.exceptions.ResourceNotFoundException;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class BookService {
@@ -22,17 +25,37 @@ public class BookService {
     @Autowired
     private BookRepository bookRepository;
 
-    @Transactional(readOnly = true)
-    public List<Book> findAll() {
-        logger.info("Finding all books");
-        return bookRepository.findAll();
-    }
+    @Autowired
+    private BookMapper bookMapper;
+
+//    @Transactional(readOnly = true)
+//    public List<Book> findAll() {
+//        logger.info("Finding all books");
+//        return bookRepository.findAll();
+//    }
 
     @Transactional(readOnly = true)
-    public Book findById(Long id) {
+    public List<BookResponseDto> findAll() {
+        logger.info("Finding all books");
+        List<Book> books = bookRepository.findAll();
+        return books.stream()
+                .map(BookMapper::toResponseDto)
+                .collect(Collectors.toList());
+    }
+
+//    @Transactional(readOnly = true)
+//    public Book findById(Long id) {
+//        logger.info("Finding one book");
+//        return bookRepository.findById(id)
+//                .orElseThrow(() -> new ResourceNotFoundException(id));
+//    }
+
+    @Transactional(readOnly = true)
+    public BookResponseDto findById(Long id) {
         logger.info("Finding one book");
-        return bookRepository.findById(id)
+        Book bookEntity = bookRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(id));
+        return BookMapper.toResponseDto(bookEntity);
     }
 
     @Transactional
@@ -55,7 +78,6 @@ public class BookService {
 
     @Transactional
     private void updatedBook(Book entity, Book book) {
-        entity.setAuthor(book.getAuthor());
         entity.setLaunchDate(book.getLaunchDate());
         entity.setPrice(book.getPrice());
         entity.setTitle(book.getTitle());
@@ -73,5 +95,4 @@ public class BookService {
             throw new DatabaseException(e.getMessage());
         }
     }
-
 }

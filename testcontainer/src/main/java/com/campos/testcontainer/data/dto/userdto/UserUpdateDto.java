@@ -1,4 +1,4 @@
-package com.campos.testcontainer.data.dto;
+package com.campos.testcontainer.data.dto.userdto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
