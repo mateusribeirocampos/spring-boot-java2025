@@ -1,20 +1,23 @@
 package com.campos.testcontainer.services;
 
+import com.campos.testcontainer.data.dto.bookdot.BookCreateDto;
 import com.campos.testcontainer.data.dto.bookdot.BookResponseDto;
+import com.campos.testcontainer.data.dto.bookdot.BookUpdateDto;
 import com.campos.testcontainer.entities.Book;
+import com.campos.testcontainer.entities.User;
 import com.campos.testcontainer.mapper.BookMapper;
 import com.campos.testcontainer.repositories.BookRepository;
-import com.campos.testcontainer.services.exceptions.DatabaseException;
+import com.campos.testcontainer.repositories.UserRepository;
 import com.campos.testcontainer.services.exceptions.ResourceNotFoundException;
-import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,13 +29,10 @@ public class BookService {
     private BookRepository bookRepository;
 
     @Autowired
-    private BookMapper bookMapper;
+    private UserRepository userRepository;
 
-//    @Transactional(readOnly = true)
-//    public List<Book> findAll() {
-//        logger.info("Finding all books");
-//        return bookRepository.findAll();
-//    }
+    @Autowired
+    private BookMapper bookMapper;
 
     @Transactional(readOnly = true)
     public List<BookResponseDto> findAll() {
@@ -43,13 +43,6 @@ public class BookService {
                 .collect(Collectors.toList());
     }
 
-//    @Transactional(readOnly = true)
-//    public Book findById(Long id) {
-//        logger.info("Finding one book");
-//        return bookRepository.findById(id)
-//                .orElseThrow(() -> new ResourceNotFoundException(id));
-//    }
-
     @Transactional(readOnly = true)
     public BookResponseDto findById(Long id) {
         logger.info("Finding one book");
@@ -59,29 +52,68 @@ public class BookService {
     }
 
     @Transactional
-    public Book create(Book entity) {
+    public BookResponseDto create(BookCreateDto dto) {
         logger.info("Creating one book");
-        return bookRepository.save(entity);
-    }
+        // create a book entity from dto
+        Book book = new Book();
+        book.setTitle(dto.getTitle());
+        book.setDescription(dto.getDescription());
+        book.setPrice(dto.getPrice());
+        book.setLaunchDate(dto.getLaunchDate());
 
-    @Transactional
-    public Book update(Long id, Book book) {
-        logger.info("Updating one book");
-        try {
-            Book entity = bookRepository.getReferenceById(id);
-            updatedBook(entity, book);
-            return bookRepository.save(entity);
-        } catch (EntityNotFoundException e) {
-            throw new ResourceNotFoundException(id);
+        //link authors if they are provide
+        if (dto.getAuthorsIds() != null && !dto.getAuthorsIds().isEmpty()) {
+            Set<User> authors = findAuthorsById(dto.getAuthorsIds());
+
+            // establishes a bidirectional relationship
+            for (User author : authors) {
+                author.getAuthoredBooks().add(book);
+                book.getAuthors().add(author);
+            }
         }
+        //save the book (cascade go to save the relationship)
+        Book savedBook = bookRepository.save(book);
+
+        logger.info("Book created successfully with id: {}", savedBook.getId());
+        return BookMapper.toResponseDto(savedBook);
     }
 
     @Transactional
-    private void updatedBook(Book entity, Book book) {
-        entity.setLaunchDate(book.getLaunchDate());
-        entity.setPrice(book.getPrice());
-        entity.setTitle(book.getTitle());
-        entity.setDescription(book.getDescription());
+    public BookResponseDto update(Long id, BookUpdateDto dto) {
+        logger.info("Updating one book");
+
+        //search book
+        Book book = bookRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(id));
+
+        // Update campus book
+        book.setTitle(dto.getTitle());
+        book.setDescription(dto.getDescription());
+        book.setPrice(dto.getPrice());
+        book.setLaunchDate(dto.getLaunchDate());
+
+        // Update authors if they are provide
+        if (dto.getAuthorsIds() != null) {
+            // remove old relation
+            for (User author : book.getAuthors()) {
+                author.getAuthoredBooks().remove(book);
+            }
+            book.getAuthors().clear();
+
+            // add new relationship
+            if (!dto.getAuthorsIds().isEmpty()) {
+                Set<User> newAuthors = findAuthorsById(dto.getAuthorsIds());
+                for (User author : newAuthors) {
+                    author.getAuthoredBooks().add(book);
+                    book.getAuthors().add(author);
+                }
+            }
+        }
+        // save alterations
+        Book updatedBook = bookRepository.save(book);
+
+        logger.info("Book updated successfully: {}", updatedBook.getId());
+        return BookMapper.toResponseDto(updatedBook);
     }
 
     @Transactional
@@ -89,10 +121,30 @@ public class BookService {
         logger.info("Deleting one book");
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(id));
-        try {
-            bookRepository.delete(book);
-        } catch (DataIntegrityViolationException e) {
-            throw new DatabaseException(e.getMessage());
+
+        // remove relationship before delete
+        for (User author : book.getAuthors()) {
+            author.getAuthoredBooks().remove(book);
         }
+        book.getAuthors().clear();
+
+        bookRepository.delete(book);
+        logger.info("Book deleted successfully: {}", id);
+    }
+
+    /*
+     * Search authors (Users) by ids if it was provided
+     * release exception if id is not found
+     * */
+    private Set<User> findAuthorsById(List<Long> authorsIds) {
+        Set<User> authors = new HashSet<>();
+
+        for (Long authorId : authorsIds) {
+            User author = userRepository.findById(authorId)
+                    .orElseThrow(() -> new ResourceNotFoundException("Author not found with id: " + authorId));
+            authors.add(author);
+        }
+        logger.info("Fond {} authors", authors.size());
+        return authors;
     }
 }

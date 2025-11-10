@@ -41,7 +41,7 @@ public class DbSeedConfig implements CommandLineRunner {
 
         userRepository.saveAll(Arrays.asList(user1, user2));
 
-        Book book1 = new Book(null, "Robert C. Martin", LocalDateTime.of(2008,8,1,0,0), 89.99, "Clean Code", "A Handbook of Agile Software Craftsmanship");
+        Book book1 = new Book(null, LocalDateTime.of(2008,8,1,0,0), 89.99, "Clean Code", "A Handbook of Agile Software Craftsmanship");
 
         bookRepository.save(book1);
 

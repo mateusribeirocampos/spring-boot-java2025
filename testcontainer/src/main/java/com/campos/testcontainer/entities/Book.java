@@ -22,9 +22,6 @@ public class Book implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "author", nullable = false, length = 80)
-    private String author;
-
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "launch_date", nullable = false)
     private LocalDateTime launchDate;
@@ -51,7 +48,7 @@ public class Book implements Serializable {
 
     public Book() {}
 
-    public Book(Long id, String author, LocalDateTime launchDate, Double price, String title, String description) {
+    public Book(Long id, LocalDateTime launchDate, Double price, String title, String description) {
         this.id = id;
         this.launchDate = launchDate;
         this.price = price;
@@ -65,14 +62,6 @@ public class Book implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
     }
 
     public LocalDateTime getLaunchDate() {
