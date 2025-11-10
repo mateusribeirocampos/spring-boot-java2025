@@ -1,9 +1,7 @@
-package com.campos.testcontainer.data.dto;
+package com.campos.testcontainer.data.dto.userdto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Column;
 
-import java.time.Instant;
 import java.time.LocalDate;
 
 public class UserCreateDto {

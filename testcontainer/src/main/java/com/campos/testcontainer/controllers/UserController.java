@@ -1,8 +1,8 @@
 package com.campos.testcontainer.controllers;
 
-import com.campos.testcontainer.data.dto.UserCreateDto;
-import com.campos.testcontainer.data.dto.UserResponseDto;
-import com.campos.testcontainer.data.dto.UserUpdateDto;
+import com.campos.testcontainer.data.dto.userdto.UserCreateDto;
+import com.campos.testcontainer.data.dto.userdto.UserResponseDto;
+import com.campos.testcontainer.data.dto.userdto.UserUpdateDto;
 import com.campos.testcontainer.entities.User;
 import com.campos.testcontainer.services.UserService;
 import org.slf4j.Logger;

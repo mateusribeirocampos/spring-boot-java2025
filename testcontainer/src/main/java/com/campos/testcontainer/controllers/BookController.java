@@ -1,5 +1,6 @@
 package com.campos.testcontainer.controllers;
 
+import com.campos.testcontainer.data.dto.bookdot.BookResponseDto;
 import com.campos.testcontainer.entities.Book;
 import com.campos.testcontainer.services.BookService;
 import org.slf4j.Logger;
@@ -22,18 +23,32 @@ public class BookController {
     @Autowired
     private BookService bookService;
 
+//    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity<List<Book>> findAll() {
+//        logger.info("GET /api/books/v1 - Finding all books");
+//        List<Book> bookList = bookService.findAll();
+//        return ResponseEntity.ok().body(bookList);
+//    }
+
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Book>> findAll() {
+    public ResponseEntity<List<BookResponseDto>> findAll() {
         logger.info("GET /api/books/v1 - Finding all books");
-        List<Book> bookList = bookService.findAll();
-        return ResponseEntity.ok().body(bookList);
+        List<BookResponseDto> bookListDto = bookService.findAll();
+        return ResponseEntity.ok().body(bookListDto);
     }
 
+//    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity<Book> findById(@PathVariable Long id) {
+//        logger.info("GET /api/books/v1/{} - Finding one book", id);
+//        Book book = bookService.findById(id);
+//        return ResponseEntity.ok().body(book);
+//    }
+
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Book> findById(@PathVariable Long id) {
+    public ResponseEntity<BookResponseDto> findById(@PathVariable Long id) {
         logger.info("GET /api/books/v1/{} - Finding one book", id);
-        Book book = bookService.findById(id);
-        return ResponseEntity.ok().body(book);
+        BookResponseDto bookDto = bookService.findById(id);
+        return ResponseEntity.ok().body(bookDto);
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE,

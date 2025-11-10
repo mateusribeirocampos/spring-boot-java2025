@@ -1,15 +1,18 @@
--- Populate user_tb with initial data
+-- Populate user_tb with initial data (Real authors of technical books)
 INSERT INTO user_tb (first_name, last_name, gender, email, birth_date, phone_number, password, address, state, created_at, updated_at)
 VALUES
-    ('Nikola', 'Tesla', 'Male', 'nikola.tesla@gmail.com', '1983-09-09', '31998636521', '123456', 'Street 1046 view', 'NY', CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
-    ('Elon', 'Musk', 'Male', 'elon.musk@gmail.com', '1981-05-25', '31996325874', '123456', 'Street 45 Bart', 'CA', CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
-    ('Ada', 'Lovelace', 'Female', 'ada.lovelace@gmail.com', '1990-12-10', '31987654321', '123456', 'Street 42 Computing', 'LO', CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
-    ('Alan', 'Turing', 'Male', 'alan.turing@gmail.com', '1985-06-23', '31976543210', '123456', 'Enigma Avenue 1942', 'CA', CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
-    ('Grace', 'Hopper', 'Female', 'grace.hopper@gmail.com', '1988-03-15', '31965432109', '123456', 'COBOL Street 123', 'BO', CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
-    ('Dennis', 'Ritchie', 'Male', 'dennis.ritchie@gmail.com', '1982-09-09', '31954321098', '123456', 'Unix Road 456', 'BE', CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
-    ('Margaret', 'Hamilton', 'Female', 'margaret.hamilton@gmail.com', '1991-08-17', '31943210987', '123456', 'Apollo Lane 789', 'HO', CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
-    ('Linus', 'Torvalds', 'Male', 'linus.torvalds@gmail.com', '1989-12-28', '31932109876', '123456', 'Linux Boulevard 321', 'HE', CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
-    ('Tim', 'Berners-Lee', 'Male', 'tim.bernerslee@gmail.com', '1987-06-08', '31921098765', '123456', 'WWW Street 1989', 'GE', CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
-    ('Katherine', 'Johnson', 'Female', 'katherine.johnson@gmail.com', '1993-11-26', '31910987654', '123456', 'NASA Drive 246', 'VI', CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
-    ('Donald', 'Knuth', 'Male', 'donald.knuth@gmail.com', '1980-01-10', '31909876543', '123456', 'Algorithm Avenue 135', 'ST', CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
-    ('Barbara', 'Liskov', 'Female', 'barbara.liskov@gmail.com', '1986-11-07', '31998765432', '123456', 'Abstraction Street 579', 'MI', CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6));
+    ('Robert', 'Martin', 'Male', 'robert.martin@gmail.com', '1952-12-05', '31998636521', '123456', 'Clean Code Street 101', 'IL', CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
+    ('Martin', 'Fowler', 'Male', 'martin.fowler@gmail.com', '1963-12-18', '31996325874', '123456', 'Refactoring Avenue 200', 'UK', CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
+    ('Eric', 'Evans', 'Male', 'eric.evans@gmail.com', '1960-01-01', '31987654321', '123456', 'Domain Drive 300', 'CA', CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
+    ('Erich', 'Gamma', 'Male', 'erich.gamma@gmail.com', '1961-03-13', '31976543210', '123456', 'Design Pattern Lane 401', 'CH', CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
+    ('Richard', 'Helm', 'Male', 'richard.helm@gmail.com', '1960-01-01', '31965432109', '123456', 'Design Pattern Lane 402', 'AU', CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
+    ('Ralph', 'Johnson', 'Male', 'ralph.johnson@gmail.com', '1955-10-07', '31954321098', '123456', 'Design Pattern Lane 403', 'IL', CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
+    ('John', 'Vlissides', 'Male', 'john.vlissides@gmail.com', '1961-08-02', '31943210987', '123456', 'Design Pattern Lane 404', 'NY', CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
+    ('Joshua', 'Bloch', 'Male', 'joshua.bloch@gmail.com', '1961-08-28', '31932109876', '123456', 'Effective Java Road 500', 'CA', CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
+    ('Kyle', 'Simpson', 'Male', 'kyle.simpson@gmail.com', '1980-01-01', '31921098765', '123456', 'JavaScript Boulevard 600', 'TX', CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
+    ('Andrew', 'Hunt', 'Male', 'andrew.hunt@gmail.com', '1964-01-01', '31910987654', '123456', 'Pragmatic Street 701', 'NC', CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
+    ('David', 'Thomas', 'Male', 'david.thomas@gmail.com', '1956-01-01', '31909876543', '123456', 'Pragmatic Street 702', 'TX', CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
+    ('Michael', 'Feathers', 'Male', 'michael.feathers@gmail.com', '1970-01-01', '31998765432', '123456', 'Legacy Code Avenue 800', 'MI', CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
+    ('Kent', 'Beck', 'Male', 'kent.beck@gmail.com', '1961-03-31', '31987654320', '123456', 'TDD Drive 900', 'OR', CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
+    ('Craig', 'Walls', 'Male', 'craig.walls@gmail.com', '1970-01-01', '31976543219', '123456', 'Spring Street 1000', 'TX', CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
+    ('Sam', 'Newman', 'Male', 'sam.newman@gmail.com', '1975-01-01', '31965432118', '123456', 'Microservices Road 1100', 'UK', CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6));

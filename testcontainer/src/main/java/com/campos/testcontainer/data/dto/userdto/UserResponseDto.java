@@ -1,4 +1,4 @@
-package com.campos.testcontainer.data.dto;
+package com.campos.testcontainer.data.dto.userdto;
 import java.util.Objects;
 
 public class UserResponseDto {
