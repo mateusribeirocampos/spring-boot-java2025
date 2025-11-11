@@ -80,4 +80,13 @@ public class BookController {
         BookResponseDto updateBookAddAuthor = bookService.addAuthorToBook(bookId, authorId);
         return ResponseEntity.ok().body(updateBookAddAuthor);
     }
+
+    @DeleteMapping(value = "/{bookId}/authors/{authorId}")
+    public ResponseEntity<BookResponseDto> removeAuthorFromBook(
+            @PathVariable Long bookId,
+            @PathVariable Long authorId) {
+        logger.info("DELETE /api/books/v1/{}/authors/{} - removing author from book", bookId, authorId);
+        BookResponseDto updatedBookRemoveAuthor = bookService.removeAuthorFromBook(bookId, authorId);
+        return ResponseEntity.ok().body(updatedBookRemoveAuthor);
+    }
 }
