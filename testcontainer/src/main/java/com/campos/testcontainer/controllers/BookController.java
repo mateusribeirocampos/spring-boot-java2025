@@ -65,8 +65,19 @@ public class BookController {
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        logger.info("DELETING /api/books/v1/{} - deleting book", id);
+        logger.info("DELETE /api/books/v1/{} - deleting book", id);
         bookService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping(value = "/{bookId}/authors/{authorId}",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<BookResponseDto> addAuthorToBook(
+            @PathVariable Long bookId,
+            @PathVariable Long authorId
+    ) {
+        logger.info("POST /api/books/v1/{}/authors/{} - adding author in book", bookId, authorId);
+        BookResponseDto updateBookAddAuthor = bookService.addAuthorToBook(bookId, authorId);
+        return ResponseEntity.ok().body(updateBookAddAuthor);
     }
 }
