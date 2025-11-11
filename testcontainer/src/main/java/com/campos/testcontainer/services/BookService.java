@@ -131,6 +131,38 @@ public class BookService {
         bookRepository.delete(book);
         logger.info("Book deleted successfully: {}", id);
     }
+    /*
+    * Add an author to an existing book.
+    *
+    * @param bookId - book id
+    * @param authorId - author id to add
+    * @return BookResponseDto with author added
+    * */
+    @Transactional
+    public BookResponseDto addAuthorToBook(Long bookId, Long authorId) {
+        logger.info("Adding an author with id: {} to an existing book with id: {} ", authorId, bookId);
+
+        // Search book by id
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new ResourceNotFoundException("Book not found with id: " + bookId));
+        // Search user by id
+        User author = userRepository.findById(authorId)
+                .orElseThrow(() -> new ResourceNotFoundException("Author not found with id: " + authorId));
+
+        // verify if the author is already in the database
+        if (book.getAuthors().contains(author)) {
+            throw new ResourceNotFoundException(
+                    String.format("Author with id %d is already linked to book with id %d",
+                            authorId, bookId)
+            );
+        }
+        book.getAuthors().add(author);
+        author.getAuthoredBooks().add(book);
+
+        Book updatedAuthorToBook = bookRepository.save(book);
+        logger.info("Author [id={}] successfully added to book [id={}]", authorId, bookId);
+        return BookMapper.toResponseDto(updatedAuthorToBook);
+    }
 
     /*
      * Search authors (Users) by ids if it was provided
@@ -144,7 +176,7 @@ public class BookService {
                     .orElseThrow(() -> new ResourceNotFoundException("Author not found with id: " + authorId));
             authors.add(author);
         }
-        logger.info("Fond {} authors", authors.size());
+        logger.info("Found {} authors", authors.size());
         return authors;
     }
 }
