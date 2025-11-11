@@ -164,6 +164,27 @@ public class BookService {
         return BookMapper.toResponseDto(updatedAuthorToBook);
     }
 
+    @Transactional
+    public BookResponseDto removeAuthorFromBook(Long bookId, Long authorId) {
+        logger.info("Removing author with id: {} from book with id: {}", authorId, bookId);
+
+        User author = userRepository.findById(authorId)
+                .orElseThrow(() -> new ResourceNotFoundException("Not found author with id: " + authorId));
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new ResourceNotFoundException("Not found book with id: " + bookId));
+
+        if (!book.getAuthors().contains(author)) {
+            throw new ResourceNotFoundException(String.format("Cannot remove: Author with id %d is not linked to book with id %d",
+                    authorId, bookId));
+        }
+        book.getAuthors().remove(author);
+        author.getAuthoredBooks().remove(book);
+
+        Book updatedBookAfterRemoveAuthor = bookRepository.save(book);
+        logger.info("Author [id={}] successfully removed from book [id={}]", authorId, bookId);
+        return BookMapper.toResponseDto(updatedBookAfterRemoveAuthor);
+    }
+
     /*
      * Search authors (Users) by ids if it was provided
      * release exception if id is not found
