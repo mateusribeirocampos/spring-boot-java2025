@@ -3,6 +3,7 @@ package com.campos.testcontainer.controllers;
 import com.campos.testcontainer.data.dto.bookdot.BookCreateDto;
 import com.campos.testcontainer.data.dto.bookdot.BookResponseDto;
 import com.campos.testcontainer.data.dto.bookdot.BookUpdateDto;
+import com.campos.testcontainer.entities.Book;
 import com.campos.testcontainer.services.BookService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,6 +38,14 @@ public class BookController {
         BookResponseDto bookDto = bookService.findById(id);
         return ResponseEntity.ok().body(bookDto);
     }
+
+    @GetMapping(value = "/authorBooks/{authorId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<BookResponseDto>> findBooksByAuthor(@PathVariable Long authorId) {
+        logger.info("GET /api/books/v1/authorBooks/{} - listing books by author id ", authorId);
+        List<BookResponseDto> bookListDto = bookService.findBooksByAuthor(authorId);
+        return ResponseEntity.ok().body(bookListDto);
+    }
+
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)

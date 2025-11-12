@@ -48,4 +48,12 @@ public class BookMapper {
         book.setLaunchDate(dto.getLaunchDate());
     return book;
     }
+
+    public static List<BookResponseDto> toResponseListDto(List<Book> entityList) {
+        if (entityList == null) return null;
+
+        return entityList.stream()
+                .map(BookMapper::toResponseDto)
+                .collect(Collectors.toList());
+    }
 }
