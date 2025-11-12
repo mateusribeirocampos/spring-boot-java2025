@@ -38,9 +38,7 @@ public class BookService {
     public List<BookResponseDto> findAll() {
         logger.info("Finding all books");
         List<Book> books = bookRepository.findAll();
-        return books.stream()
-                .map(BookMapper::toResponseDto)
-                .collect(Collectors.toList());
+        return BookMapper.toResponseListDto(books);
     }
 
     @Transactional(readOnly = true)
@@ -183,6 +181,25 @@ public class BookService {
         Book updatedBookAfterRemoveAuthor = bookRepository.save(book);
         logger.info("Author [id={}] successfully removed from book [id={}]", authorId, bookId);
         return BookMapper.toResponseDto(updatedBookAfterRemoveAuthor);
+    }
+    /*
+    * Search all books from specific author
+    *
+    * @param authorId - author id
+    * @Return List of BookResponseDto
+    * */
+    public List<BookResponseDto> findBooksByAuthor(Long authorId) {
+        logger.info("Searching book from author with id: {}", authorId);
+        User author = userRepository.findById(authorId)
+                .orElseThrow(() -> new ResourceNotFoundException("Not found author with id: " + authorId));
+
+        if (author.getAuthoredBooks() == null || author.getAuthoredBooks().isEmpty()) {
+            throw new ResourceNotFoundException("Not found author with id: " + authorId);
+        }
+        logger.info("The book from Author [id={}] was listed successfully", authorId);
+        return author.getAuthoredBooks().stream()
+                .map(BookMapper::toResponseDto)
+                .collect(Collectors.toList());
     }
 
     /*
