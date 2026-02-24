@@ -68,28 +68,37 @@ src/
 
 ### Environment Variables
 
-Set the following environment variables before running the application:
+This project uses environment variables for sensitive configuration. Never hardcode credentials in config files.
 
-```bash
-DATABASE_URL=jdbc:mysql://localhost:3306/your_database
-DATABASE_USERNAME=your_username
-DATABASE_PASSWORD=your_password
-```
+1. **Copy the example file**
+   ```bash
+   cp .env.example .env
+   ```
+
+2. **Fill in your credentials in `.env`**
+   ```bash
+   DATABASE_USERNAME=your_username
+   DATABASE_PASSWORD=your_password
+   ```
+
+> The `.env` file is listed in `.gitignore` and will never be committed to version control.
 
 ### Installation
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
-   cd spring-boot-and-java
+   git clone git@github.com:mateusribeirocampos/spring-boot-java2025.git
+   cd spring-boot-java2025
    ```
 
-2. **Build the project**
+2. **Configure environment variables** (see section above)
+
+3. **Build the project**
    ```bash
    mvn clean install
    ```
 
-3. **Run the application**
+4. **Run the application**
    ```bash
    mvn spring-boot:run
    ```
